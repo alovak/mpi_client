@@ -15,7 +15,7 @@ module MPIClient
         doc = Nokogiri::XML(xml)
 
         unless (doc.xpath("//Transaction")).empty?
-          @status = doc.xpath("//Transaction").attr('status')
+          @status = doc.xpath("//Transaction").attr('status').value
           @url    = doc.xpath("//Transaction/URL").text
         else
           get_error(doc)
@@ -33,7 +33,7 @@ module MPIClient
       def get_error(doc)
         unless (error = doc.xpath("//Error")).empty?
           @error_message = error.text
-          @error_code    = error.attr('code')
+          @error_code    = error.attr('code').value
         else
           @error_message = 'Unknown response was received from MPI'
           @error_code    = ''
