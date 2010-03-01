@@ -1,13 +1,13 @@
-require File.dirname(__FILE__) + '/../../spec_helper'
+require File.dirname(__FILE__) + '/../../../spec_helper'
 
-describe "MPIClient" do
+describe "AccountManagement::Request" do
   before(:each) do
-    @client = Request.new
+    @client = AccountManagement::Request.new
   end
 
   describe "requests" do
     it "should call submit_request and return it's result" do
-      response = Response.new({:account_id => 'b1adc7af83a302be94891cf17014c98a'})
+      response = AccountManagement::Response.new({:account_id => 'b1adc7af83a302be94891cf17014c98a'})
       options = mock
       @client.should_receive(:submit_request).with(:create_account, options).and_return(response)
       @client.create_account(options).should == response
@@ -62,5 +62,16 @@ describe "MPIClient" do
     result.should_not be_success
     result.error_message.should == 'Format XML-request is not valid'
     result.error_code.should    == 'C2'
+    result.errors.should == {:base => 'Format XML-request is not valid'}
+  end
+
+  it "should set logger" do
+    connection, logger = mock, mock
+    Network::Connection.stub(:new).and_return(connection)
+    MPIClient.should_receive(:logger).twice.and_return(logger)
+    connection.should_receive(:logger=).with(logger)
+    connection.should_receive(:request_filter=)
+    connection.should_receive(:response_filter=)
+    AccountManagement::Request.new
   end
 end
