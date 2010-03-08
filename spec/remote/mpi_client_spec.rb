@@ -1,7 +1,5 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-MPI_SERVER_URL = 'http://192.168.65.11/xml'
-
 describe "MPIClient requests" do
   before(:each) do
     @mpi_client = AccountManagement::Request.new

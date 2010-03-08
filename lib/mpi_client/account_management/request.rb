@@ -10,7 +10,8 @@ module MPIClient
 
       private
       def submit_request(request_type, *args)
-        parse_response(connection.post(prepare_request_data(request_type, *args)))
+        response = connection.post(prepare_request_data(request_type, *args))
+        parse_response(response.body)
       end
 
       def prepare_request_data(request_type, options, transaction_attrs = {})

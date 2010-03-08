@@ -37,11 +37,11 @@ describe "Verification::Request" do
 
   describe "post" do
     it "should post data with connection" do
-      connection = mock
+      connection = mock(:body => 'Response body')
       MPIClient.stub!(:server_url => 'http://mpi-url/')
       @request.stub!(:connection).and_return(connection)
-      connection.should_receive(:post).with('xml request')
-      @request.send(:post, 'xml request')
+      connection.should_receive(:post).with('xml request').and_return(connection)
+      @request.send(:post, 'xml request').should == 'Response body'
     end
   end
 

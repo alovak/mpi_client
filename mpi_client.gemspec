@@ -1,10 +1,10 @@
 Gem::Specification.new do |s|
   s.name         = 'mpi_client'
-  s.version      = '0.0.9'
+  s.version      = '0.0.11'
   s.authors      = ['Dmitry Plashchynski', 'Evgeniy Sugakov']
-  s.homepage     = 'http://github.com/plashchynski/mpi_client/'
+  s.homepage     = 'http://github.com/alovak/mpi_client/'
   s.summary      = 'MPI client library'
-  s.email        = 'plashchynski@gmail.com'
+  s.email        = 'alovak@gmail.com'
   s.require_path = "lib"
   s.has_rdoc     = false
   s.files        =  ["lib/mpi_client/option_translator.rb", "lib/mpi_client/base_request.rb", "lib/mpi_client/account_management.rb", "lib/mpi_client/account_management/request.rb", "lib/mpi_client/account_management/response.rb", "lib/mpi_client/error_parser.rb", "lib/mpi_client/verification/request.rb", "lib/mpi_client/verification/response.rb", "lib/mpi_client/verification.rb", "lib/mpi_client.rb"]

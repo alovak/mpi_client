@@ -29,7 +29,7 @@ module MPIClient
 
       private
       def post(xml_request)
-        connection.post(xml_request)
+        connection.post(xml_request).body
       end
 
       def build_xml
