@@ -21,8 +21,8 @@ describe "Verification::Response" do
       @response.parse
     end
 
-    it "should not be successful if xml does not contain Error item" do
-      @response.should_not be_successful
+    it "should be successful if xml does not contain Error item" do
+      @response.should be_successful
     end
   end
 
