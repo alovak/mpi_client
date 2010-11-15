@@ -19,7 +19,7 @@ module MPIClient
         builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
           xml.REQUEST(:type => request_type) do |xml|
             xml.Transaction(transaction_attrs) do |xml|
-              options.each do |k,v|  
+              options.each do |k,v|
                 xml.send(OptionTranslator.to_server(k), v)
               end
             end
@@ -29,19 +29,9 @@ module MPIClient
       end
 
       def parse_response(response_data)
-        doc = Nokogiri::XML(response_data)
-
-        if error = doc.xpath("//Error").first
-          response = {
-            :error_message => error.text,
-            :error_code    => error[:code],
-            :errors        => ErrorParser.parse(error.text, error[:code]),
-          }
-        else
-          response = Hash[*doc.xpath("//Transaction/*").collect{|a| [OptionTranslator.to_client(a.name.to_sym), a.text] }.flatten]
-        end
-
-        Response.new(response)
+        response = Response.new(response_data)
+        response.parse
+        response
       end
     end
   end
