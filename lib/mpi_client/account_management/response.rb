@@ -15,10 +15,6 @@ module MPIClient
         error_code.nil? && error_message.nil?
       end
 
-      def method_missing(method)
-        data[method]
-      end
-
       def parse
         doc = Nokogiri::XML.parse(response_source)
 
