@@ -52,11 +52,11 @@ describe AccountManagement::Response do
     end
   end
 
-  describe "#message_in_parentheses" do
-    subject { response.send(:message_in_parentheses, 'Wrong (format)') }
+  describe "#extract_messages" do
+    subject { response.send(:extract_messages, 'Wrong (format. fields)') }
 
     it "should return message in parentheses" do
-      should == 'format'
+      should == %w(format fields)
     end
   end
 
@@ -112,12 +112,12 @@ describe AccountManagement::Response do
 
   end
 
-  describe "#setting_properties_account" do
+  describe "#set_account_attributes" do
     let(:xml) { '<Transaction><CardType>visa</CardType><Id>33</Id></Transaction>'}
     let(:doc) { Nokogiri::XML(xml) }
 
     it "should setting properties account" do
-      response.send(:setting_properties_account, doc.xpath("//Transaction/*"))
+      response.send(:set_account_attributes, doc.xpath("//Transaction/*"))
 
       response.brand.should         == 'visa'
       response.merchant_id.should   == '33'
@@ -138,7 +138,7 @@ describe AccountManagement::Response do
         response.parse
       end
 
-      it "should set error_code, error_message and errors" do
+      it "should set error_code" do
         response.error_code.should    == 'C2'
       end
 
@@ -163,7 +163,7 @@ describe AccountManagement::Response do
       end
 
       it "should set account properties" do
-        response.should_receive(:setting_properties_account).with(elements)
+        response.should_receive(:set_account_attributes).with(elements)
 
         response.parse
       end

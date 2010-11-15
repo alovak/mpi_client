@@ -23,7 +23,7 @@ module MPIClient
           @error_message = error.text
           @errors        = errors_to_hash
         else
-          setting_properties_account doc.xpath("//Transaction/*")
+          set_account_attributes doc.xpath("//Transaction/*")
         end
 
       end
@@ -35,10 +35,8 @@ module MPIClient
       end
 
       def error_fields
-        messages = message_in_parentheses(error_message).split(/\.\s*/)
-
         {}.tap do |result|
-          messages.each do |message|
+          extract_messages(error_message).each do |message|
             key = OptionTranslator.to_client( field_name_from(message) )
             result[key.to_sym] = error_description_from(message)
           end
@@ -53,15 +51,15 @@ module MPIClient
         message.sub /\s\[.+?\]/, ''
       end
 
-      def message_in_parentheses(message)
-        message.sub /.*\((.+)\).*/, '\1'
+      def extract_messages(message)
+        message.sub(/.*\((.+)\).*/, '\1').split(/\.\s*/)
       end
 
       def contain_error_fields?
         error_code == 'C5'
       end
 
-      def setting_properties_account(elements)
+      def set_account_attributes(elements)
         elements.each do |element|
           name = OptionTranslator.to_client(element.name.to_sym)
           instance_variable_set("@#{name}".to_sym, element.text)
