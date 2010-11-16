@@ -1,11 +1,15 @@
 module MPIClient
   module AccountManagement
     class Response
-      attr_reader :response_source, :error_code, :error_message, :errors, \
-      :merchant_id, :site_name, :site_url, :certificate_subject, \
-      :acquirer_bin, :country_code, :password, :certificate,
-      :private_key, :directory_server_url, :brand, :response_url, \
-      :client_url, :term_url, :account_id
+
+      ATTRIBUTES = [:merchant_id, :site_name, :site_url,
+                    :certificate_subject, :acquirer_bin, :country_code,
+                    :password, :certificate, :private_key,
+                    :directory_server_url, :brand, :response_url,
+                    :client_url, :term_url, :account_id]
+
+      attr_reader :response_source, :error_code, :error_message, :errors
+      attr_reader *ATTRIBUTES
 
       def initialize(response_source)
         @response_source = response_source
@@ -25,7 +29,14 @@ module MPIClient
         else
           set_account_attributes doc.xpath("//Transaction/*")
         end
+      end
 
+      def data
+        {}.tap do |result|
+          ATTRIBUTES.each do |attr|
+            result[attr] = send(attr)
+          end
+        end
       end
 
       private

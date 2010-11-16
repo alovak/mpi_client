@@ -8,6 +8,35 @@ describe AccountManagement::Response do
     response.response_source.should == response_source
   end
 
+  describe "#data" do
+    before do
+      response.instance_variable_set(:@site_url, 'http://url.com')
+      response.instance_variable_set(:@site_name,'Site')
+    end
+
+    it "should return hash with all attributes" do
+      expected_hash = {
+        :merchant_id          => nil,
+        :site_name            => 'Site',
+        :site_url             => 'http://url.com',
+        :certificate_subject  => nil,
+        :acquirer_bin         => nil,
+        :country_code         => nil,
+        :password             => nil,
+        :certificate          => nil,
+        :private_key          => nil,
+        :directory_server_url => nil,
+        :brand                => nil,
+        :response_url         => nil,
+        :client_url           => nil,
+        :term_url             => nil,
+        :account_id           => nil
+      }
+
+      response.data.should == expected_hash
+    end
+  end
+
   describe "#errors_to_hash" do
     let(:error_code)    { 'S3 '}
     let(:error_message) { 'Can\'t create merchant certificate (Error unable to get local issuer certificate getting chain.)' }
