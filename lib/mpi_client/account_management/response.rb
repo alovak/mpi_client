@@ -21,13 +21,16 @@ module MPIClient
 
       def parse
         doc = Nokogiri::XML.parse(response_source)
-
-        if error = doc.xpath("//Error").first
+        case
+        when error = doc.xpath("//Error").first
           @error_code    = error[:code]
           @error_message = error.text
           @errors        = errors_to_hash
+        when (transaction = doc.xpath("//Transaction/*")) && transaction.any?
+          set_account_attributes transaction
         else
-          set_account_attributes doc.xpath("//Transaction/*")
+          @error_message = 'Unknown response was received from MPI'
+          @errors = errors_to_hash
         end
       end
 

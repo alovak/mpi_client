@@ -167,11 +167,11 @@ describe AccountManagement::Response do
         response.parse
       end
 
-      it "should set error_code" do
+      it "should set error code" do
         response.error_code.should    == 'C2'
       end
 
-      it "should set error_message" do
+      it "should set error message" do
         response.error_message.should == 'Wrong request'
       end
 
@@ -182,7 +182,7 @@ describe AccountManagement::Response do
 
     context "when response contains account information" do
       let(:doc)      { mock }
-      let(:elements) { mock }
+      let(:elements) { mock(:any? => true) }
       let(:response_source) { "<Transaction><Id>33</Id></Transaction>" }
 
       before do
@@ -197,6 +197,42 @@ describe AccountManagement::Response do
         response.parse
       end
     end
+
+    context "when response does not contain a Error tag and a Transaction tag" do
+      let(:message) { 'Unknown response was received from MPI' }
+      let(:response_source) { internal_server_error }
+
+      before { response.parse }
+
+      it "should set error message" do
+        response.error_message.should == message
+      end
+
+      it "should set errors" do
+        response.errors.should == { :base => message }
+      end
+
+    end
+
   end
 
+end
+
+def internal_server_error
+  <<-RESPONSE
+<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">
+<html>
+  <head>
+     <title>500 Internal Server Error</title>
+  </head>
+  <body>
+    <h1>Internal Server Error</h1>
+    <p>The server encountered an internal error or misconfiguration and was unable to complete your request.</p>
+    <p>Please contact the server administrator, webmaster@localhost and inform them of the time the error occurred, and anything you might have done that may have caused the error.</p>
+    <p>More information about this error may be available in the server error log.</p>
+    <hr>
+    <address>Apache/2.2.14 (Ubuntu) Server at 3ds.by Port 80</address>
+  </body>
+</html>
+RESPONSE
 end
