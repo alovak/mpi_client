@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'network'
 require 'nokogiri'
 require 'active_support/core_ext/module/attribute_accessors'

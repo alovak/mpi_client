@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../../spec_helper'
+require 'spec_helper'
 
 describe "Verification::Response" do
   it "should return Response instance" do
@@ -8,7 +8,7 @@ describe "Verification::Response" do
   before(:each) do
     @response = Verification::Response.new('')
   end
-  
+
   context 'xml contain sucessful response with status "N"' do
     before(:each) do
       @response.stub!(:xml => <<-XML)
@@ -94,4 +94,3 @@ describe "Verification::Response" do
     end
   end
 end
-
