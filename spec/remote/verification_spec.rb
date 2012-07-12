@@ -1,8 +1,8 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe 'test of verification request' do
   it "should have status 'N'" do
-    req = Verification::Request.new(request_params(:card_number => '4200000000000000'), '1')
+    req = Verification::Request.new(request_params(:card_number => '4012001038443335'), '1')
     response = req.process
     response.status.should == 'N'
   end
