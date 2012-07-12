@@ -20,7 +20,7 @@ describe "BaseRequest" do
     end
   end
 
-  describe "settings proxy" do
+  describe "proxy settings" do
     let(:proxy_addr) { "http://proxy.com" }
     let(:proxy_port) { 3129 }
     let(:proxy_user) { "p_user" }
