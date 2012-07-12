@@ -4,7 +4,12 @@ module MPIClient
     attr_reader :connection
 
     def initialize
-      @connection = Network::Connection.new(MPIClient.server_url)
+      options = {
+        :proxy_addr => MPIClient.proxy_addr, :proxy_port => MPIClient.proxy_port,
+        :proxy_user => MPIClient.proxy_user, :proxy_pass => MPIClient.proxy_pass
+      }
+
+      @connection = Network::Connection.new(MPIClient.server_url, options)
       @connection.logger = MPIClient.logger if MPIClient.logger
       set_logger_filters
     end
