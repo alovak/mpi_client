@@ -76,6 +76,7 @@ module MPIClient
       def set_account_attributes(elements)
         elements.each do |element|
           name = OptionTranslator.to_client(element.name.to_sym)
+          next unless name
           instance_variable_set("@#{name}".to_sym, element.text)
         end
       end

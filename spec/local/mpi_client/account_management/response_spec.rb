@@ -142,7 +142,7 @@ describe AccountManagement::Response do
   end
 
   describe "#set_account_attributes" do
-    let(:xml) { '<Transaction><CardType>visa</CardType><Id>33</Id></Transaction>'}
+    let(:xml) { '<Transaction><CardType>visa</CardType><Id>33</Id><UnknownAttribute>dummy</UnknownAttribute></Transaction>'}
     let(:doc) { Nokogiri::XML(xml) }
 
     it "should setting properties account" do

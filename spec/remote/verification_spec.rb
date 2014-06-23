@@ -8,14 +8,14 @@ describe 'test of verification request' do
   end
 
   it "should return 'Y' and url" do
-    req = Verification::Request.new(request_params(:card_number => '4012001037141112'), '2')
+    req = Verification::Request.new(request_params(:card_number => '4200000000000000'), '2')
     response = req.process
     response.status.should == 'Y'
     response.url.should_not be_empty
   end
 
   def request_params(new_params)
-    { :account_id       => '0'*32,
+    { :account_id       => 'd6d8479f23a526b4e676c88759abd27a',
       :amount           => '100',
       :card_number      => '4200000000000000',
       :description      => 'Test order',
